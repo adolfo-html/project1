@@ -17,6 +17,16 @@ int count = 0;
 
 void printRegisters(int *r);
 
+bool checkValue(int tri)
+{
+	if (tri > 999 || tri < 0)
+	{
+		cout << "+ + + + OPERATION ERROR + + + + -- result returned value out of bounds for RAM\n";
+		return false;
+	}
+	return true;
+}
+
 string getValue(int n)
 {
 	if (n > 9)
@@ -27,9 +37,8 @@ string getValue(int n)
 		} else {
 			return "0" + to_string(n);
 		}
-	} else {
-		return "00" + to_string(n);
 	}
+	return "00" + to_string(n);
 }
 
 
@@ -61,7 +70,7 @@ int scanInst(string input)
 	// Exit program if instruction is 100.
 	if (inst[0] == '1' && inst[1] == '0' && inst[2] == '0')
 	{
-		cout << "+ Process exiting ...\n";
+		cout << "+ Program exiting ...\n";
 		printRegisters(r);
 		count++;
 		return 0;
@@ -80,8 +89,16 @@ int scanInst(string input)
 	switch (inst[0])
 	{
 		case '0':
-			if (n != 0)
-				cout << "Register " << d << ": " << getValue(d) << "\n";
+			if (r[n] != 0)
+			{
+				// TODO
+//				cout << "r[d] is " << r[d] << "\n";
+//				cout << "count is " << count << "\n";
+				
+				if (r[d] != count)
+					scanInst(ram[r[d]]);
+				cout << "+ Process complete\n";
+			}
 			break;
 		case '1':
 			cout << "+ + + NO OPERATION DEFINED + + +\n";
@@ -91,24 +108,36 @@ int scanInst(string input)
 			cout << "+ Process complete\n";
 			break;
 		case '3':
-			r[d] = r[d] * n;
-			cout << "+ Process complete\n";
+			if (checkValue(r[d] * n))
+			{
+				r[d] = r[d] * n;
+				cout << "+ Process complete\n";
+			}
 			break;
 		case '4':
-			r[d] += n;
-			cout << "+ Process complete\n";
+			if (checkValue(r[d] += n))
+			{
+				r[d] += n;
+				cout << "+ Process complete\n";
+			}
 			break;
 		case '5':
 			r[d] = r[n];
 			cout << "+ Process complete\n";
 			break;
 		case '6':
-			r[d] = r[d] * r[n];
-			cout << "+ Process complete\n";
+			if (checkValue(r[d] * r[n]))
+			{
+				r[d] = r[d] * r[n];
+				cout << "+ Process complete\n";
+			}
 			break;
 		case '7':
-			r[d] = r[d] + r[n];
-			cout << "+ Process complete\n";
+			if (checkValue(r[d] + r[n]))
+			{
+				r[d] = r[d] + r[n];
+				cout << "+ Process complete\n";
+			}
 			break;
 		case '8':
 			// TODO: This will set register d to a value in RAM, like 001. And register n just tells you where it is based on ITS value.
@@ -195,6 +224,7 @@ int main()
 	// Get name of file to read instructions from
 	cout << "# FILENAME: ";
 	cin >> fileName;
+	cout << "\n\n";
 
 	// Remember to set the ifstream object AFTER you have a value for fileName...
 	ifstream file(fileName);
