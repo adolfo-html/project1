@@ -128,9 +128,13 @@ int scanInst(string input)
 			break;
 		case '9':
 			// Problematic because, again, there's a data type mismatch. So here I'm trying to assign an int value to a string value. Let's try this...
-			cout << "r[n] is " << r[n] << "\n";
-			cout << "ram[r[n]] is " << ram[r[n]] << "\n";
-			ram[r[n]] = getValue(r[d]); // Set the value of the position in ram indicated by r[n] to the value that's currently in r[d].
+//			cout << "r[n] is " << r[n] << "\n";
+//			cout << "ram[r[n]] is " << ram[r[n]] << "\n";
+
+			ram[r[n]] = getValue(r[d]); // getValue() function is so useful! Set the value of the position in ram indicated by r[n] to the value that's currently in r[d].
+			
+//			cout << "ram[r[n]] is " << ram[r[n]] << "\nRemember s is d and a is n\n";
+			cout << "+ Process complete\n";
 			break;
 	}
 
