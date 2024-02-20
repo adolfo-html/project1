@@ -8,6 +8,8 @@ using namespace std;
 
 // Declaring register variable OUTSIDE of the scanInst function so that it doesn't get declared/set to 0 every time I call it
 int r[10] = {0};
+
+// Sets initial value of all RAM addresses to 000
 string ram[1000];
 
 // count is initially 0, then increments with every instruction process
@@ -109,10 +111,26 @@ int scanInst(string input)
 			cout << "+ Process complete\n";
 			break;
 		case '8':
-			r[d] = r[n];
+			// TODO: This will set register d to a value in RAM, like 001. And register n just tells you where it is based on ITS value.
+			// The problem here is that RAM is an array of strings and we need to set the value of r[d] to an int.
+			// Before implementing this, I have to make sure all of the variables along the way are right.
+
+			// This was a test to show r[n] when n = 1 and make sure all variables were right.
+//			cout << "r[n] is: " << r[n] << "\n";
+//			cout << "ram[1] is: " << ram[0] << "\n";
+//			cout << "ram[r[n]] is: " << ram[r[n]] << "\n";
+			// THIS WORKS!!!
+
+			r[d] = stoi(ram[r[n]]); // This sets r[d] to the integer version of the position in the RAM array that is indicated by the value of r[n]. Let's try it out...
+			// stio() is an important function to turn strings into integers.
+			// I spent a lot of time here unnecessarily because I set all the ram values to 000 AFTER I assigned values to ram from the text file.
+			cout << "+ Process complete\n";
 			break;
 		case '9':
-			
+			// Problematic because, again, there's a data type mismatch. So here I'm trying to assign an int value to a string value. Let's try this...
+			cout << "r[n] is " << r[n] << "\n";
+			cout << "ram[r[n]] is " << ram[r[n]] << "\n";
+			ram[r[n]] = getValue(r[d]); // Set the value of the position in ram indicated by r[n] to the value that's currently in r[d].
 			break;
 	}
 
@@ -180,7 +198,11 @@ int main()
 
 	// The getline function will collect text line by line. Two parameters: your file, and the text variable the output is going to.
 	// This while loop is cool because it makes it so the program goes through all the lines/instructions, and stops when there are no more lines. Nice
-	
+
+	// Set RAM address initial values to "000" BEFORE I actually collect the instructions. Whoops
+	for (int f = 0; f < 1000; f++)
+		ram[f] = "000";
+
 	// Collecting instructions in RAM
 	int instCount = 0;
 	while (getline(file, myText))
@@ -189,6 +211,7 @@ int main()
 		instCount++;
 	}
 	// WORKS!
+
 
 // So here it's getting all the instructions and setting it to its sequential ram position.
 // Afterwards the next getline function (below) doesn't read anything, so let me try setting the ifstream object again.
