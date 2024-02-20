@@ -8,7 +8,7 @@ using namespace std;
 
 // Declaring register variable OUTSIDE of the scanInst function so that it doesn't get declared/set to 0 every time I call it
 int r[10] = {0};
-int ram[1000] = {0};
+string ram[1000];
 
 // count is initially 0, then increments with every instruction process
 int count = 0;
@@ -151,6 +151,17 @@ int main()
 // So you can't check if it's from 100 to 999. Sigh.
 
 
+// IMPORTANT: I need to implement the instructions in RAM thing.
+// So I need to get the instructions from the text file and sequentially set them in the RAM array.
+// I plan on doing this by getting the instructions as an INT instead of a string.
+// So, to optimize a little, I'm going to try to change the initial string myText to an int at first.
+// This can be problematic but I'm not sure. Because I don't know if the getline function will accept an int value.
+
+// Looks like that didn't work
+
+// Now I'm gonna try getting it as a string, then I'll convert the string to an int later for operation.
+// That works
+
 // HOW TO READ DATA FROM A FILE! :)
 
 	// Designated string variable for each instruction
@@ -165,10 +176,26 @@ int main()
 
 	// Remember to set the ifstream object AFTER you have a value for fileName...
 	ifstream file(fileName);
+	ifstream file1(fileName);
 
 	// The getline function will collect text line by line. Two parameters: your file, and the text variable the output is going to.
 	// This while loop is cool because it makes it so the program goes through all the lines/instructions, and stops when there are no more lines. Nice
+	
+	// Collecting instructions in RAM
+	int instCount = 0;
 	while (getline(file, myText))
+	{
+		ram[instCount] = myText;
+		instCount++;
+	}
+	// WORKS!
+
+// So here it's getting all the instructions and setting it to its sequential ram position.
+// Afterwards the next getline function (below) doesn't read anything, so let me try setting the ifstream object again.
+
+//	ifstream file(fileName); The object was previously declared! So I have to make a new "file" filename, I guess. I'll just make two up above and be done with it...
+	
+	while (getline(file1, myText))
 	{
 		cout << "+ Executing instruction " << myText << " ... \n";
 		scanInst(myText);
