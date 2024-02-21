@@ -21,7 +21,7 @@ bool checkValue(int tri)
 {
 	if (tri > 999 || tri < 0)
 	{
-		cout << "+ + + + OPERATION ERROR + + + + -- result returned value out of bounds for RAM\n";
+		cout << "+ ^ ^ ^ OPERATION ERROR ^ ^ ^ + -- result returned value out of bounds for RAM\n";
 		return false;
 	}
 	return true;
@@ -60,7 +60,7 @@ int scanInst(string input)
 		bool ugh = inst[i] == '0' || inst[i] == '1' || inst[i] == '2' || inst[i] == '3' || inst[i] == '4' || inst[i] == '5' || inst[i] == '6' || inst[i] == '7' || inst[i] == '8' || inst[i] == '9';
 		if (!ugh)
 		{
-			cout << "+ + + + SYNTAX ERROR + + + +\n";
+			cout << "+ ^ ^ ^ SYNTAX ERROR ^ ^ ^ +\n";
 
 			// This needs to be here or it will cause a buffer overflow. Don't know why.
 			return 0;
@@ -70,7 +70,7 @@ int scanInst(string input)
 	// Exit program if instruction is 100.
 	if (inst[0] == '1' && inst[1] == '0' && inst[2] == '0')
 	{
-		cout << "+ Program exiting ...\n";
+		cout << "+ Program exiting ...\n\n";
 		printRegisters(r);
 		count++;
 		return 0;
@@ -97,7 +97,6 @@ int scanInst(string input)
 				
 				if (r[d] != count)
 					scanInst(ram[r[d]]);
-				cout << "+ Process complete\n";
 			}
 			break;
 		case '1':
@@ -105,38 +104,32 @@ int scanInst(string input)
 			break;
 		case '2':
 			r[d] = n;
-			cout << "+ Process complete\n";
 			break;
 		case '3':
 			if (checkValue(r[d] * n))
 			{
 				r[d] = r[d] * n;
-				cout << "+ Process complete\n";
 			}
 			break;
 		case '4':
 			if (checkValue(r[d] += n))
 			{
 				r[d] += n;
-				cout << "+ Process complete\n";
 			}
 			break;
 		case '5':
 			r[d] = r[n];
-			cout << "+ Process complete\n";
 			break;
 		case '6':
 			if (checkValue(r[d] * r[n]))
 			{
 				r[d] = r[d] * r[n];
-				cout << "+ Process complete\n";
 			}
 			break;
 		case '7':
 			if (checkValue(r[d] + r[n]))
 			{
 				r[d] = r[d] + r[n];
-				cout << "+ Process complete\n";
 			}
 			break;
 		case '8':
@@ -153,7 +146,6 @@ int scanInst(string input)
 			r[d] = stoi(ram[r[n]]); // This sets r[d] to the integer version of the position in the RAM array that is indicated by the value of r[n]. Let's try it out...
 			// stio() is an important function to turn strings into integers.
 			// I spent a lot of time here unnecessarily because I set all the ram values to 000 AFTER I assigned values to ram from the text file.
-			cout << "+ Process complete\n";
 			break;
 		case '9':
 			// Problematic because, again, there's a data type mismatch. So here I'm trying to assign an int value to a string value. Let's try this...
@@ -163,7 +155,6 @@ int scanInst(string input)
 			ram[r[n]] = getValue(r[d]); // getValue() function is so useful! Set the value of the position in ram indicated by r[n] to the value that's currently in r[d].
 			
 //			cout << "ram[r[n]] is " << ram[r[n]] << "\nRemember s is d and a is n\n";
-			cout << "+ Process complete\n";
 			break;
 	}
 
@@ -261,7 +252,7 @@ int main()
 	// Notify if no instructions executed
 	cout << "\nNumber of instructions executed: " << count << "\n";
 	if (count == 0)
-		cout << "Since 0 instructions were executed, check if you got the file name right\n";
+		cout << "No instructions detected. Check if you got the file name right\n";
 
 	return 0;
 }
