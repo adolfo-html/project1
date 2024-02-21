@@ -5,7 +5,7 @@ using namespace std;
 
 // Adolfo Chavez - Operating Systems Assignment 1
 
-// gh test
+// gh test2
 // Step 1: Declare global variables / constructor methods
 
 // Declaring register variable OUTSIDE of the scanInst function so that it doesn't get declared/set to 0 every time I call it
