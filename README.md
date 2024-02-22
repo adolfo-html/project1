@@ -2,6 +2,8 @@
 
 This is literally homework for my operating systems class.
 
+Make fun of my bad C++ all you want, cause it's my teacher's problem now!!!! HAHAHAAAAAAAAAAAAAAA
+
 I am also practicing how to push my commits to GitHub through the command line.
 
 You might see another README.md in the log (if you can access it), and that's because I accidentally deleted the first one when I pushed this repository to GitHub.
